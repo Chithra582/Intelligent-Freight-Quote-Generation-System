@@ -1,0 +1,352 @@
+[
+  {
+    "id": "TV-001",
+    "category": "distance_haversine",
+    "input": { "lat1": 18.95, "lon1": 72.95, "lat2": 25.01, "lon2": 55.06 },
+    "expected": { "distance_km": 1961.71 }
+  },
+  {
+    "id": "TV-002",
+    "category": "distance_road",
+    "input": { "lat1": 18.95, "lon1": 72.95, "lat2": 28.61, "lon2": 77.23, "country": "IN" },
+    "expected": { "road_km": 1506.39 }
+  },
+  {
+    "id": "TV-003",
+    "category": "distance_sea",
+    "input": { "origin_code": "INNSA", "dest_code": "AEJEA" },
+    "expected": { "sea_nm": 1080.0 }
+  },
+  {
+    "id": "TV-004",
+    "category": "distance_sea",
+    "input": { "origin_code": "CNSHA", "dest_code": "USLAX" },
+    "expected": { "sea_nm": 5700.0 }
+  },
+  {
+    "id": "TV-005",
+    "category": "distance_sea",
+    "input": { "origin_code": "INNSA", "dest_code": "NLRTM" },
+    "expected": { "sea_nm": 6350.0 }
+  },
+  {
+    "id": "TV-006",
+    "category": "weight_actual",
+    "input": {
+      "items": [
+        { "quantity": 10, "weight_per_unit_kg": 25.5 },
+        { "quantity": 5, "weight_per_unit_kg": 40.0 }
+      ]
+    },
+    "expected": { "actual_weight_kg": 455.0 }
+  },
+  {
+    "id": "TV-007",
+    "category": "weight_volumetric_air",
+    "input": {
+      "mode": "AIR",
+      "items": [
+        { "quantity": 4, "length_cm": 60, "width_cm": 40, "height_cm": 50, "weight_per_unit_kg": 15 }
+      ]
+    },
+    "expected": { "volumetric_weight_kg": 80.0 }
+  },
+  {
+    "id": "TV-008",
+    "category": "weight_volumetric_express",
+    "input": {
+      "mode": "EXPRESS_AIR",
+      "items": [
+        { "quantity": 2, "length_cm": 50, "width_cm": 50, "height_cm": 50, "weight_per_unit_kg": 10 }
+      ]
+    },
+    "expected": { "volumetric_weight_kg": 50.0 }
+  },
+  {
+    "id": "TV-009",
+    "category": "weight_volumetric_ground",
+    "input": {
+      "mode": "GROUND_RAIL",
+      "items": [
+        { "quantity": 3, "length_cm": 100, "width_cm": 60, "height_cm": 60, "weight_per_unit_kg": 50 }
+      ]
+    },
+    "expected": { "volumetric_weight_kg": 240.0 }
+  },
+  {
+    "id": "TV-010",
+    "category": "chargeable_weight_fcl",
+    "input": {
+      "mode": "OCEAN",
+      "load_type": "FCL",
+      "package_type": "CONTAINER",
+      "container_count": 2,
+      "container_type": "40HC",
+      "items": [{ "quantity": 2, "weight_per_unit_kg": 22000 }]
+    },
+    "expected": {
+      "basis": "PER_CONTAINER",
+      "units": 2,
+      "label": "Containers: 2 × 40HC"
+    }
+  },
+  {
+    "id": "TV-011",
+    "category": "chargeable_weight_lcl_cbm_dominates",
+    "input": {
+      "mode": "OCEAN",
+      "load_type": "LCL",
+      "items": [
+        { "quantity": 5, "length_cm": 120, "width_cm": 100, "height_cm": 100, "weight_per_unit_kg": 200 }
+      ]
+    },
+    "expected": {
+      "basis": "REVENUE_TON",
+      "units": 6.0,
+      "label": "Revenue tons: 6.0 R/T"
+    }
+  },
+  {
+    "id": "TV-012",
+    "category": "chargeable_weight_lcl_weight_dominates",
+    "input": {
+      "mode": "OCEAN",
+      "load_type": "LCL",
+      "items": [
+        { "quantity": 2, "length_cm": 60, "width_cm": 60, "height_cm": 60, "weight_per_unit_kg": 1500 }
+      ]
+    },
+    "expected": {
+      "basis": "REVENUE_TON",
+      "units": 3.0,
+      "label": "Revenue tons: 3.0 R/T"
+    }
+  },
+  {
+    "id": "TV-013",
+    "category": "chargeable_weight_air_actual_dominates",
+    "input": {
+      "mode": "AIR",
+      "items": [
+        { "quantity": 1, "length_cm": 30, "width_cm": 30, "height_cm": 30, "weight_per_unit_kg": 50 }
+      ]
+    },
+    "expected": {
+      "basis": "CHARGEABLE_KG",
+      "units": 50.0,
+      "label": "Chargeable: 50.0 kg"
+    }
+  },
+  {
+    "id": "TV-014",
+    "category": "chargeable_weight_air_volumetric_dominates",
+    "input": {
+      "mode": "AIR",
+      "items": [
+        { "quantity": 2, "length_cm": 100, "width_cm": 60, "height_cm": 50, "weight_per_unit_kg": 20 }
+      ]
+    },
+    "expected": {
+      "basis": "CHARGEABLE_KG",
+      "units": 100.0,
+      "label": "Chargeable: 100.0 kg"
+    }
+  },
+  {
+    "id": "TV-015",
+    "category": "transit_ocean_fcl",
+    "input": {
+      "main_leg_dist": 1080.0,
+      "mode": "OCEAN",
+      "load_type": "FCL",
+      "sailings_per_week": 2.0
+    },
+    "expected": {
+      "breakdown": {
+        "origin_dwell_days": 3.0,
+        "linehaul_days": 2.7,
+        "schedule_wait_days": 1.75,
+        "dest_dwell_days": 3.0,
+        "buffer_days": 4.0
+      },
+      "min_days": 10.45,
+      "max_days": 14.45
+    }
+  },
+  {
+    "id": "TV-016",
+    "category": "transit_air_freight",
+    "input": {
+      "main_leg_dist": 6000.0,
+      "mode": "AIR",
+      "has_door_pickup": false,
+      "has_door_delivery": false
+    },
+    "expected": {
+      "breakdown": {
+        "origin_dwell_days": 2.0,
+        "linehaul_days": 1.31,
+        "dest_dwell_days": 1.5,
+        "buffer_days": 2.0
+      },
+      "min_days": 4.81,
+      "max_days": 6.81
+    }
+  },
+  {
+    "id": "TV-017",
+    "category": "business_days_skip_weekend",
+    "input": {
+      "start_date": "2026-08-14",
+      "days": 2
+    },
+    "expected": {
+      "arrival_date": "2026-08-18"
+    }
+  },
+  {
+    "id": "TV-018",
+    "category": "business_days_five_days",
+    "input": {
+      "start_date": "2026-08-10",
+      "days": 5
+    },
+    "expected": {
+      "arrival_date": "2026-08-17"
+    }
+  },
+  {
+    "id": "TV-019",
+    "category": "route_scoring_weights",
+    "input": {
+      "routes": [
+        { "id": "R1", "transit_days": 7, "estimated_cost": 1200, "carrier_reliability": 95, "congestion_hours": 4 },
+        { "id": "R2", "transit_days": 14, "estimated_cost": 900, "carrier_reliability": 85, "congestion_hours": 16 }
+      ]
+    },
+    "expected": {
+      "recommended_id": "R1"
+    }
+  },
+  {
+    "id": "TV-020",
+    "category": "indicative_total_fcl",
+    "input": {
+      "origin_region": "APAC",
+      "dest_region": "MEASA",
+      "mode": "OCEAN",
+      "load_type": "FCL",
+      "container_type": "40HC",
+      "chargeable_info": { "basis": "PER_CONTAINER", "units": 1 }
+    },
+    "expected": {
+      "amount": 2565.0,
+      "currency": "USD",
+      "is_indicative": true
+    }
+  },
+  {
+    "id": "TV-021",
+    "category": "distance_airway_overhead",
+    "input": { "lat1": 19.0760, "lon1": 72.8777, "lat2": 25.2048, "lon2": 55.2708 },
+    "expected": { "airway_km": 2051.20 }
+  },
+  {
+    "id": "TV-022",
+    "category": "distance_rail_factor",
+    "input": { "lat1": 19.0760, "lon1": 72.8777, "lat2": 28.6139, "lon2": 77.2090 },
+    "expected": { "corridor_km": 1492.52 }
+  },
+  {
+    "id": "TV-023",
+    "category": "cbm_volume_calculation",
+    "input": {
+      "items": [
+        { "quantity": 10, "length_cm": 50, "width_cm": 40, "height_cm": 30 }
+      ]
+    },
+    "expected": { "total_cbm": 0.6 }
+  },
+  {
+    "id": "TV-024",
+    "category": "transit_express_air",
+    "input": {
+      "main_leg_dist": 3000.0,
+      "mode": "EXPRESS_AIR",
+      "has_door_pickup": true,
+      "pickup_road_km": 50,
+      "has_door_delivery": true,
+      "delivery_road_km": 60
+    },
+    "expected": {
+      "min_days": 3.41,
+      "max_days": 4.41
+    }
+  },
+  {
+    "id": "TV-025",
+    "category": "transit_ground_rail",
+    "input": {
+      "main_leg_dist": 900.0,
+      "mode": "GROUND_RAIL",
+      "has_door_pickup": false,
+      "has_door_delivery": false
+    },
+    "expected": {
+      "min_days": 3.0,
+      "max_days": 5.0
+    }
+  },
+  {
+    "id": "TV-026",
+    "category": "indicative_total_air",
+    "input": {
+      "origin_region": "APAC",
+      "dest_region": "AMER",
+      "mode": "AIR",
+      "load_type": "LCL",
+      "chargeable_info": { "basis": "CHARGEABLE_KG", "units": 200 }
+    },
+    "expected": {
+      "amount": 1215.0,
+      "currency": "USD"
+    }
+  },
+  {
+    "id": "TV-027",
+    "category": "indicative_total_lcl",
+    "input": {
+      "origin_region": "APAC",
+      "dest_region": "MEASA",
+      "mode": "OCEAN",
+      "load_type": "LCL",
+      "chargeable_info": { "basis": "REVENUE_TON", "units": 4.5 }
+    },
+    "expected": {
+      "amount": 516.38,
+      "currency": "USD"
+    }
+  },
+  {
+    "id": "TV-028",
+    "category": "distance_sea_transpacific",
+    "input": { "origin_code": "CNSHK", "dest_code": "USLAX" },
+    "expected": { "sea_nm": 6400.0 }
+  },
+  {
+    "id": "TV-029",
+    "category": "distance_sea_asia_europe",
+    "input": { "origin_code": "SGSIN", "dest_code": "NLRTM" },
+    "expected": { "sea_nm": 8280.0 }
+  },
+  {
+    "id": "TV-030",
+    "category": "gateway_resolution_nearest",
+    "input": {
+      "lat": 19.2,
+      "lon": 73.0,
+      "mode": "OCEAN"
+    },
+    "expected": { "resolved_code": "INNSA" }
+  }
+]

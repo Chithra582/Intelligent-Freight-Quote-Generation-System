@@ -32,8 +32,8 @@ import {
 } from 'lucide-react';
 
 import Sidebar from '../components/Sidebar';
-import DashboardNavbar from '../components/DashboardNavbar';
 import * as db from '../utils/masterDataService';
+
 
 // Collection Configurations defining fields, types, relationships
 const COLLECTIONS_CONFIG = [
@@ -482,7 +482,7 @@ export default function MasterData() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] text-slate-800 flex">
+    <div className="flex h-screen bg-[#f8fafc] text-slate-800 font-sans antialiased overflow-hidden">
       {/* Sidebar navigation */}
       <Sidebar
         isCollapsed={isCollapsed}
@@ -492,10 +492,9 @@ export default function MasterData() {
       />
 
       {/* Main Dashboard Content */}
-      <div className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${isCollapsed ? 'md:ml-20' : 'md:ml-64'}`}>
-        <DashboardNavbar onMenuToggle={() => setIsMobileOpen(!isMobileOpen)} />
+      <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
+        <main className="flex-1 p-6 md:p-8 space-y-6 max-w-7xl mx-auto w-full">
 
-        <main className="flex-1 p-6 md:p-8 space-y-6 overflow-y-auto max-w-7xl mx-auto w-full">
           {/* Header Area */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>

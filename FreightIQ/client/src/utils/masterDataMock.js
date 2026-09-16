@@ -7,19 +7,27 @@ export const INITIAL_MASTER_DATA = {
     { countryCode: 'CN', countryName: 'China', region: 'APAC', currencyCode: 'CNY', active: true }
   ],
   ports: [
+    { UNLOCODE: 'INMAA', portName: 'Chennai Port', portType: 'Sea', iataCode: 'MAA', city: 'Chennai', countryCode: 'IN', location: '13.0827° N, 80.2707° E', timezone: 'UTC+05:30', active: true },
+    { UNLOCODE: 'SGSIN', portName: 'Port of Singapore', portType: 'Sea', iataCode: 'SIN', city: 'Singapore', countryCode: 'SG', location: '1.29027° N, 103.8519° E', timezone: 'UTC+08:00', active: true },
+    { UNLOCODE: 'AEJEA', portName: 'Jebel Ali Port', portType: 'Sea', iataCode: 'DXB', city: 'Dubai', countryCode: 'AE', location: '25.0112° N, 55.0617° E', timezone: 'UTC+04:00', active: true },
+    { UNLOCODE: 'LKCMB', portName: 'Port of Colombo', portType: 'Sea', iataCode: 'CMB', city: 'Colombo', countryCode: 'LK', location: '6.9497° N, 79.8456° E', timezone: 'UTC+05:30', active: true },
+    { UNLOCODE: 'NLRTM', portName: 'Port of Rotterdam', portType: 'Sea', iataCode: 'RTM', city: 'Rotterdam', countryCode: 'NL', location: '51.9244° N, 4.4777° E', timezone: 'UTC+01:00', active: true },
     { UNLOCODE: 'INNSA', portName: 'Nhava Sheva (JNPT)', portType: 'Sea', iataCode: 'BOM', city: 'Navi Mumbai', countryCode: 'IN', location: '18.9500° N, 72.9500° E', timezone: 'UTC+05:30', active: true },
     { UNLOCODE: 'USLAX', portName: 'Port of Los Angeles', portType: 'Sea', iataCode: 'LAX', city: 'Los Angeles', countryCode: 'US', location: '33.7288° N, 118.2620° W', timezone: 'UTC-08:00', active: true },
-    { UNLOCODE: 'AEJEA', portName: 'Jebel Ali Port', portType: 'Sea', iataCode: 'DXB', city: 'Dubai', countryCode: 'AE', location: '25.0112° N, 55.0617° E', timezone: 'UTC+04:00', active: true },
     { UNLOCODE: 'DEHAM', portName: 'Port of Hamburg', portType: 'Sea', iataCode: 'HAM', city: 'Hamburg', countryCode: 'DE', location: '53.5458° N, 9.9644° E', timezone: 'UTC+01:00', active: true },
     { UNLOCODE: 'CNSHA', portName: 'Port of Shanghai', portType: 'Sea', iataCode: 'PVG', city: 'Shanghai', countryCode: 'CN', location: '31.2243° N, 121.4691° E', timezone: 'UTC+08:00', active: true }
   ],
   tradeLanes: [
+    { laneCode: 'INMAA-SGSIN', laneName: 'Chennai to Singapore', originPortCode: 'INMAA', destinationPortCode: 'SGSIN', transitTimeDays: 6, carrierCode: 'ABC', active: true },
+    { laneCode: 'INMAA-AEJEA', laneName: 'Chennai to Dubai', originPortCode: 'INMAA', destinationPortCode: 'AEJEA', transitTimeDays: 9, carrierCode: 'XYZ', active: true },
     { laneCode: 'INNSA-AEJEA', laneName: 'Nhava Sheva to Jebel Ali', originPortCode: 'INNSA', destinationPortCode: 'AEJEA', transitTimeDays: 7, carrierCode: 'MSK', active: true },
     { laneCode: 'CNSHA-USLAX', laneName: 'Shanghai to Los Angeles', originPortCode: 'CNSHA', destinationPortCode: 'USLAX', transitTimeDays: 14, carrierCode: 'COSCO', active: true },
     { laneCode: 'DEHAM-INNSA', laneName: 'Hamburg to Nhava Sheva', originPortCode: 'DEHAM', destinationPortCode: 'INNSA', transitTimeDays: 21, carrierCode: 'HLD', active: true },
     { laneCode: 'USLAX-AEJEA', laneName: 'Los Angeles to Jebel Ali', originPortCode: 'USLAX', destinationPortCode: 'AEJEA', transitTimeDays: 28, carrierCode: 'ONE', active: true }
   ],
   carriers: [
+    { carrierCode: 'ABC', carrierName: 'ABC Shipping', mode: 'Ocean', serviceTypes: 'FCL, LCL', reliabilityScore: 95, contractTier: 'Tier 1', apiEnabled: true, active: true },
+    { carrierCode: 'XYZ', carrierName: 'XYZ Shipping', mode: 'Ocean', serviceTypes: 'FCL, LCL', reliabilityScore: 91, contractTier: 'Tier 1', apiEnabled: true, active: true },
     { carrierCode: 'MSK', carrierName: 'Maersk Line', mode: 'Ocean', serviceTypes: 'FCL, LCL', reliabilityScore: 94, contractTier: 'Tier 1', apiEnabled: true, active: true },
     { carrierCode: 'COSCO', carrierName: 'COSCO Shipping', mode: 'Ocean', serviceTypes: 'FCL', reliabilityScore: 89, contractTier: 'Tier 2', apiEnabled: false, active: true },
     { carrierCode: 'HLD', carrierName: 'Hapag-Lloyd', mode: 'Ocean', serviceTypes: 'FCL, LCL', reliabilityScore: 91, contractTier: 'Tier 1', apiEnabled: true, active: true },

@@ -15,8 +15,10 @@ import {
   Send,
   Building,
   User,
+  Phone,
   ExternalLink
 } from 'lucide-react'
+
 
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
@@ -91,12 +93,35 @@ export default function LandingPage() {
 
   const handleContactSubmit = (e) => {
     e.preventDefault()
+    const form = e.target
+    const nameInput = form.querySelector('input[type="text"]')
+    const emailInput = form.querySelector('input[type="email"]')
+    const msgInput = form.querySelector('textarea')
+
+    const newFeedback = {
+      id: `FB-${Math.floor(1000 + Math.random() * 9000)}`,
+      name: nameInput?.value || 'Corporate Shipper',
+      email: emailInput?.value || 'shipper@example.com',
+      message: msgInput?.value || 'General logistics inquiry',
+      date: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+      status: 'New'
+    }
+
+    try {
+      const stored = localStorage.getItem('customerFeedbackList')
+      const list = stored ? JSON.parse(stored) : []
+      localStorage.setItem('customerFeedbackList', JSON.stringify([newFeedback, ...list]))
+    } catch (err) {
+      console.error('Feedback storage error:', err)
+    }
+
     setContactSubmitted(true)
     setTimeout(() => {
       setContactSubmitted(false)
-      e.target.reset()
+      form.reset()
     }, 3000)
   }
+
 
   const scrollToQuote = (e) => {
     e.preventDefault()
@@ -317,7 +342,135 @@ export default function LandingPage() {
       </section>
 
 
+      {/* Contact Section matching Reference Image */}
+      <section id="contact" className="py-20 bg-[#091222] border-t border-slate-800 relative overflow-hidden text-white">
+        {/* Glow ambient background */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-10 right-10 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            {/* Left Column: Contact info & details */}
+            <div className="lg:col-span-6 space-y-6">
+              <div className="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/25">
+                <Mail className="w-7 h-7" />
+              </div>
+
+              <div>
+                <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+                  Contact FreightHub Support
+                </h2>
+                <p className="text-sm text-slate-300 max-w-lg leading-relaxed mt-3">
+                  Have custom enterprise shipping inquiries, API integration questions, or contract freight forwarder requests? Get in touch with our commercial operations team.
+                </p>
+              </div>
+
+              <div className="space-y-3.5 pt-2">
+                <div className="flex items-center gap-4 p-4 rounded-2xl bg-[#0e1a30] border border-slate-700/60 shadow-sm">
+                  <div className="w-10 h-10 rounded-xl bg-blue-950/80 border border-blue-500/30 flex items-center justify-center text-blue-400 shrink-0">
+                    <Building className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-xs sm:text-sm font-semibold text-slate-200 block">
+                      FreightHub Center, Bandra-Kurla Complex (BKC), Mumbai, 400051
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4 p-4 rounded-2xl bg-[#0e1a30] border border-slate-700/60 shadow-sm">
+                  <div className="w-10 h-10 rounded-xl bg-blue-950/80 border border-blue-500/30 flex items-center justify-center text-blue-400 shrink-0">
+                    <Phone className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-xs sm:text-sm font-semibold text-slate-200 block">
+                      +91 (022) 8800-4492 / Commercial Support Desk
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4 p-4 rounded-2xl bg-[#0e1a30] border border-slate-700/60 shadow-sm">
+                  <div className="w-10 h-10 rounded-xl bg-blue-950/80 border border-blue-500/30 flex items-center justify-center text-blue-400 shrink-0">
+                    <Mail className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="text-xs sm:text-sm font-semibold text-slate-200 block">
+                      support@freighthub.in / rates@freighthub.in
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Send Us a Direct Inquiry Form */}
+            <div className="lg:col-span-6">
+              <div className="bg-[#0b1528] border border-slate-700/70 rounded-3xl p-7 sm:p-9 shadow-2xl relative">
+                <h3 className="text-xl font-bold text-white mb-6">
+                  Send Us a Direct Inquiry
+                </h3>
+
+                {contactSubmitted ? (
+                  <div className="p-6 rounded-2xl bg-blue-950/50 border border-blue-500/40 text-center space-y-2">
+                    <CheckCircle className="w-10 h-10 text-emerald-400 mx-auto" />
+                    <h4 className="text-base font-bold text-white">Inquiry Received</h4>
+                    <p className="text-xs text-slate-300">Our logistics operations desk will respond to your registered email shortly.</p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleContactSubmit} className="space-y-4">
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+                        YOUR NAME
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="Enter your name"
+                        className="w-full px-4 py-3 bg-[#070e1b] border border-slate-700 rounded-xl text-xs sm:text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+                        EMAIL ADDRESS
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        placeholder="you@company.com"
+                        className="w-full px-4 py-3 bg-[#070e1b] border border-slate-700 rounded-xl text-xs sm:text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">
+                        MESSAGE
+                      </label>
+                      <textarea
+                        rows={4}
+                        required
+                        placeholder="Describe your freight inquiry..."
+                        className="w-full px-4 py-3 bg-[#070e1b] border border-slate-700 rounded-xl text-xs sm:text-sm text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all resize-none"
+                      />
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="w-full mt-2 py-3.5 px-6 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-blue-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                      <Send className="w-4 h-4" />
+                      <span>SUBMIT SUPPORT INQUIRY</span>
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   )
 }
+

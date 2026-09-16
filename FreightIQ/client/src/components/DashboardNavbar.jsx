@@ -1,18 +1,21 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Menu, Bell, Search, Globe, ChevronDown, LogOut } from 'lucide-react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { 
+  Rocket, 
+  Briefcase, 
+  Shield, 
+  LogOut,
+  Menu
+} from 'lucide-react'
 
-export default function DashboardNavbar({ setIsMobileOpen, title }) {
-  const [notificationsOpen, setNotificationsOpen] = useState(false)
-  const [profileOpen, setProfileOpen] = useState(false)
-  const [userEmail, setUserEmail] = useState('agent@freightiq.com')
-  const [userName, setUserName] = useState('Agent')
+export default function DashboardNavbar({ setIsMobileOpen }) {
+  const location = useLocation()
   const navigate = useNavigate()
+  const [userName, setUserName] = useState('User')
+  const [userRole, setUserRole] = useState('user')
 
   useEffect(() => {
-    const email = localStorage.getItem('userEmail') || 'agent@freightiq.com'
-    setUserEmail(email)
-    
+    const email = localStorage.getItem('userEmail') || 'user@freighthub.com'
     const name = localStorage.getItem('userName')
     if (name) {
       setUserName(name)
@@ -22,128 +25,107 @@ export default function DashboardNavbar({ setIsMobileOpen, title }) {
         .split(/[\._\-+]/)
         .map(part => part.charAt(0).toUpperCase() + part.slice(1))
         .join(' ')
-      setUserName(cleanName || 'Agent')
+      setUserName(cleanName || 'Freight User')
     }
-  }, [])
+
+    const currentRole = (
+      localStorage.getItem('selectedAccessRole') ||
+      localStorage.getItem('userRole') ||
+      'user'
+    ).toLowerCase()
+    setUserRole(currentRole)
+  }, [location])
 
   const handleLogout = () => {
     localStorage.removeItem('token')
+    localStorage.removeItem('refreshToken')
     localStorage.removeItem('userEmail')
     localStorage.removeItem('userName')
-    navigate('/')
+    localStorage.removeItem('selectedAccessRole')
+    navigate('/login')
   }
 
-  const mockNotifications = [
-    { id: 1, text: 'Quotation #IQ-9821 approved by carrier', time: '10 mins ago' },
-    { id: 2, text: 'New shipment route optimized to Kolkata Hub', time: '1 hr ago' },
-    { id: 3, text: 'Carbon offset metrics monthly report ready', time: '1 day ago' },
-  ]
+  let brandTitle = 'FREIGHTHUB'
+  let brandSubtitle = 'FREIGHT QUOTE SYSTEM'
+  let BrandIcon = Rocket
+  let roleBadgeText = 'USER'
+  let roleBadgeColor = 'bg-blue-500/20 text-blue-400 border-blue-500/30'
+
+  if (userRole === 'admin') {
+    brandSubtitle = 'ADMIN CONSOLE'
+    BrandIcon = Shield
+    roleBadgeText = 'ADMIN'
+    roleBadgeColor = 'bg-purple-500/20 text-purple-400 border-purple-500/30'
+  } else if (userRole === 'broker') {
+    brandSubtitle = 'BROKERAGE PORTAL'
+    BrandIcon = Briefcase
+    roleBadgeText = 'BROKER'
+    roleBadgeColor = 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+  } else {
+    brandSubtitle = 'FREIGHT QUOTE SYSTEM'
+    BrandIcon = Rocket
+    roleBadgeText = 'USER'
+    roleBadgeColor = 'bg-blue-500/20 text-blue-400 border-blue-500/30'
+  }
 
   return (
-    <header className="sticky top-0 bg-white border-b border-slate-200 py-3.5 px-6 z-20 flex items-center justify-between shadow-sm">
-      {/* Left section: Hamburger (mobile) & Title */}
-      <div className="flex items-center gap-4">
-        <button
-          onClick={() => setIsMobileOpen(true)}
-          className="md:hidden p-1.5 text-slate-500 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition-colors"
-          aria-label="Open sidebar"
-        >
-          <Menu className="w-5.5 h-5.5" />
-        </button>
-        <div>
-          <h1 className="text-base sm:text-lg font-bold text-slate-800 tracking-tight">
-            {title || 'Broker Workspace'}
-          </h1>
-          <p className="text-[10px] text-slate-500 hidden sm:block">
-            FreightIQ AI Automated Dispatch Network
-          </p>
-        </div>
-      </div>
-
-      {/* Center: Search (hidden on very small viewports) */}
-      <div className="hidden md:flex items-center max-w-xs w-full relative">
-        <Search className="absolute left-3 w-4 h-4 text-slate-400" />
-        <input
-          type="text"
-          placeholder="Search shipments, carriers, quotes..."
-          className="w-full pl-9 pr-4 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-sky-500 transition-colors focus:bg-white"
-        />
-      </div>
-
-      {/* Right section: Info / profile / notification */}
-      <div className="flex items-center gap-3.5">
-        {/* Globe Status indicator */}
-        <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-150 rounded-full text-[10px] font-bold tracking-wide uppercase">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live SLA
-        </div>
-
-        {/* Notifications Bell */}
-        <div className="relative">
-          <button
-            onClick={() => {
-              setNotificationsOpen(!notificationsOpen)
-              setProfileOpen(false)
-            }}
-            className="p-2 text-slate-500 hover:text-slate-800 rounded-xl hover:bg-slate-100 transition-colors relative cursor-pointer"
-          >
-            <Bell className="w-5 h-5" />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-blue-500" />
-          </button>
-
-          {/* Notifications Dropdown */}
-          {notificationsOpen && (
-            <div className="absolute right-0 mt-2 w-80 bg-white border border-slate-200 rounded-2xl shadow-xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-              <div className="px-4 py-2 border-b border-slate-100 flex items-center justify-between">
-                <span className="text-xs font-extrabold text-slate-850">Recent System Notifications</span>
-                <span className="text-[10px] text-blue-500 cursor-pointer font-semibold">Mark read</span>
-              </div>
-              <div className="divide-y divide-slate-100 max-h-64 overflow-y-auto">
-                {mockNotifications.map((notif) => (
-                  <div key={notif.id} className="px-4 py-3 hover:bg-slate-50 transition-colors">
-                    <p className="text-xs text-slate-700 font-medium leading-normal">{notif.text}</p>
-                    <span className="text-[9px] text-slate-500 block mt-1">{notif.time}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Profile Dropdown */}
-        <div className="relative border-l border-slate-200 pl-3.5">
-          <button
-            onClick={() => {
-              setProfileOpen(!profileOpen)
-              setNotificationsOpen(false)
-            }}
-            className="flex items-center gap-2 hover:bg-slate-50 p-1.5 rounded-xl transition-colors text-left cursor-pointer"
-          >
-            <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center text-white font-extrabold text-xs shadow-md shadow-blue-500/10 uppercase">
-              {userName.substring(0, 1).toUpperCase()}
-            </div>
-            <div className="hidden lg:block">
-              <p className="text-xs font-bold text-slate-800 leading-tight">{userName}</p>
-              <span className="text-[9px] text-slate-500 block truncate max-w-[120px]">
-                {userEmail}
-              </span>
-            </div>
-            <ChevronDown className="w-3.5 h-3.5 text-slate-500 hidden sm:block shrink-0" />
-          </button>
-
-          {profileOpen && (
-            <div className="absolute right-0 mt-2 w-52 bg-white border border-slate-200 rounded-2xl shadow-xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-              <div className="px-4 py-2 border-b border-slate-100">
-                <p className="text-xs font-bold text-slate-800">{userName}</p>
-                <span className="text-[9px] text-slate-500 truncate block">{userEmail}</span>
-              </div>
+    <header className="sticky top-0 z-40 bg-[#07101e] border-b border-slate-800 text-white shadow-md">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          
+          {/* Left: Brand Logo & Subtitle */}
+          <div className="flex items-center gap-3">
+            {setIsMobileOpen && (
               <button
-                onClick={handleLogout}
-                className="w-full px-4 py-2.5 text-xs text-rose-500 hover:bg-rose-50 text-left font-semibold flex items-center gap-2 transition-colors cursor-pointer"
+                onClick={() => setIsMobileOpen(true)}
+                className="lg:hidden p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800/80 transition-colors"
+                aria-label="Open mobile menu"
               >
-                <LogOut className="w-3.5 h-3.5" /> Log Out Workspace
+                <Menu className="w-5 h-5" />
               </button>
+            )}
+            <Link to="/dashboard" className="flex items-center gap-3 group">
+              <div className="w-10 h-10 rounded-2xl bg-[#ea580c] flex items-center justify-center text-white shadow-lg shadow-orange-600/30 group-hover:scale-105 transition-transform">
+                <BrandIcon className="w-5 h-5" />
+              </div>
+              <div>
+                <h1 className="text-base sm:text-lg font-black tracking-wider text-white uppercase leading-none">
+                  {brandTitle}
+                </h1>
+                <p className="text-[9.5px] font-extrabold tracking-widest text-slate-400 uppercase mt-1">
+                  {brandSubtitle}
+                </p>
+              </div>
+            </Link>
+          </div>
+
+          {/* Right: User Profile Badge & Logout Button */}
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            {/* User Pill */}
+            <div className="flex items-center gap-2 bg-[#0e1a30] border border-slate-800 py-1.5 px-3 rounded-2xl shadow-sm">
+              <div className="w-7 h-7 rounded-xl bg-orange-600 flex items-center justify-center text-white font-extrabold text-xs shrink-0">
+                {userName.charAt(0).toUpperCase()}
+              </div>
+              <div className="hidden sm:flex items-center gap-2">
+                <span className="text-xs font-bold text-slate-100 max-w-[120px] truncate">
+                  {userName}
+                </span>
+                <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-full border ${roleBadgeColor}`}>
+                  {roleBadgeText}
+                </span>
+              </div>
             </div>
-          )}
+
+            {/* Logout Button */}
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1.5 px-3.5 py-2 bg-rose-600 hover:bg-rose-700 active:scale-95 text-white font-bold text-xs rounded-2xl shadow-md shadow-rose-600/20 transition-all cursor-pointer"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Logout</span>
+            </button>
+          </div>
+
         </div>
       </div>
     </header>
