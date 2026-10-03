@@ -1,0 +1,14 @@
+name: "distance-router"
+description: "Calculates driving distance, corridor routes, and estimated transit times between zip codes."
+input_schema:
+  type: "object"
+  properties:
+    origin_zip:
+      type: "string"
+      description: "Origin postal code."
+    destination_zip:
+      type: "string"
+      description: "Destination postal code."
+  required:
+    - "origin_zip"
+    - "destination_zip"

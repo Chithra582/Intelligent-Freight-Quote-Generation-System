@@ -1,0 +1,17 @@
+name: "quote-generator"
+description: "Generates, serializes, and stores formal freight quote dossiers with itemized breakdowns."
+input_schema:
+  type: "object"
+  properties:
+    quote_data:
+      type: "object"
+      description: "Complete shipment, pricing, and routing payload."
+    format:
+      type: "string"
+      enum:
+        - "json"
+        - "pdf"
+      description: "Output quote format."
+  required:
+    - "quote_data"
+    - "format"

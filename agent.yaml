@@ -1,0 +1,21 @@
+spec_version: "0.1.0"
+name: "intelligent-freight-quote-generation-system"
+version: "1.0.0"
+description: "Intelligent freight quote generation and shipment management agent automating route distance calculation, fuel surcharges, and dynamic carrier pricing."
+author: "Cargo Genius Logistics <support@cargogenius.io>"
+license: "MIT"
+metadata:
+  domain: "Logistics, Freight Pricing & Supply Chain Management"
+  category: "Logistics & Supply Chain"
+  framework: "Cargo Genius / Node.js"
+  language: "JavaScript / Python"
+skills:
+  - "dynamic-freight-rate-calculation"
+  - "origin-destination-routing-and-distance"
+  - "cargo-dimension-and-weight-classification"
+  - "quote-dossier-generation-and-history"
+tools:
+  - "rate-calculator"
+  - "distance-router"
+  - "cargo-classifier"
+  - "quote-generator"

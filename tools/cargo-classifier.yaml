@@ -1,0 +1,25 @@
+name: "cargo-classifier"
+description: "Evaluates cargo dimensions, actual weight, and determines dimensional weight and freight class."
+input_schema:
+  type: "object"
+  properties:
+    actual_weight_lbs:
+      type: "number"
+      description: "Actual gross weight in pounds."
+    length_in:
+      type: "number"
+      description: "Length in inches."
+    width_in:
+      type: "number"
+      description: "Width in inches."
+    height_in:
+      type: "number"
+      description: "Height in inches."
+    commodity:
+      type: "string"
+      description: "Commodity description for freight classification."
+  required:
+    - "actual_weight_lbs"
+    - "length_in"
+    - "width_in"
+    - "height_in"

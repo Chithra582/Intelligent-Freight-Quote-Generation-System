@@ -1,0 +1,27 @@
+name: "rate-calculator"
+description: "Calculates baseline freight shipping rates, fuel surcharges, and accessorial fees."
+input_schema:
+  type: "object"
+  properties:
+    distance_miles:
+      type: "number"
+      description: "Driving distance in miles."
+    chargeable_weight_lbs:
+      type: "number"
+      description: "Chargeable weight in pounds."
+    equipment_type:
+      type: "string"
+      enum:
+        - "dry_van"
+        - "reefer"
+        - "flatbed"
+      description: "Freight equipment type."
+    accessorials:
+      type: "array"
+      items:
+        type: "string"
+      description: "Required accessorial services (liftgate, residential, inside_delivery)."
+  required:
+    - "distance_miles"
+    - "chargeable_weight_lbs"
+    - "equipment_type"
